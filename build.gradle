@@ -25,9 +25,12 @@ dependencies {
 
     // mysql jdbc driver
     compile("mysql:mysql-connector-java:$mysqlVersion")
-    compile("org.apache.commons:commons-dbcp2:$commonDbcp2")
 
     // utils
+    compile("org.apache.commons:commons-dbcp2:$commonDbcp2")
+    compile("com.google.guava:guava:18.0")
+
+    // test
     testCompile("junit:junit")
 }
 

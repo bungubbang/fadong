@@ -18,7 +18,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.fadong.domain")
+@EnableJpaRepositories(basePackages = "com.fadong.repository")
 public class PersistenceConfiguration {
 
     @Bean

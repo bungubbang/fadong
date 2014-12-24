@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/java/com/fadong/FadongApplication.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/fadong/PersistenceConfiguration.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/fadong/ModuleConfiguration.java</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
@@ -82,6 +93,7 @@
     <orderEntry type="library" exported="" name="Gradle: commons-dbcp2-2.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-pool2-2.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-logging-1.1.3" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: guava-18.0" level="project" />
   </component>
 </module>
 
