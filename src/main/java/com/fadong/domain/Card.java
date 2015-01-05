@@ -3,8 +3,9 @@ package com.fadong.domain;
 import com.fadong.service.dto.CardDto;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import static com.fadong.service.dto.CardDto.CardDataDto.CardFormatDto;
 
 /**
  * Created by bungubbang
@@ -20,9 +21,6 @@ public class Card {
     private String source;
     private String picture;
     private String description;
-
-    private Integer comments_size;
-    private Integer likes_size;
 
     /*
         Page 관련 도메인
@@ -63,20 +61,6 @@ public class Card {
     }
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Integer getComments_size() {
-        return comments_size;
-    }
-    public void setComments_size(Integer comments_size) {
-        this.comments_size = comments_size;
-    }
-
-    public Integer getLikes_size() {
-        return likes_size;
-    }
-    public void setLikes_size(Integer likes_size) {
-        this.likes_size = likes_size;
     }
 
     public String getName() {
@@ -121,20 +105,30 @@ public class Card {
     }
 
     public Card updateByDto(CardDto.CardDataDto dto) {
-
-//        dto.getFormat().
+        CardFormatDto cardFormatDto = dto.getFormat().get(dto.getFormat().size() - 1);
 
         setId(dto.getId());
         setSource(dto.getSource());
-        setPicture(dto.get);
-        setDescription();
-        setComments_size();
-        setLikes_size();
-        setName();
-        setCategory();
-        setProfile_image();
-        setUpdated_time();
-        setCreated_time();
+        setPicture(cardFormatDto.getPicture());
+        setDescription(dto.getDescription());
+        setUpdated_time(dto.getUpdated_time());
+        setCreated_time(dto.getCreated_time());
+
+        return this;
+    }
+
+    public Card updateByDto(CardDto.CardDataDto dto, Page page) {
+        CardFormatDto cardFormatDto = dto.getFormat().get(dto.getFormat().size() - 1);
+
+        setId(dto.getId());
+        setSource(dto.getSource());
+        setPicture(cardFormatDto.getPicture());
+        setDescription(dto.getDescription());
+        setName(page.getName());
+        setCategory(page.getCategory());
+        setProfile_image(page.getProfile_image());
+        setUpdated_time(dto.getUpdated_time());
+        setCreated_time(dto.getCreated_time());
 
         return this;
     }
@@ -142,12 +136,10 @@ public class Card {
     @Override
     public String toString() {
         return "Card{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", source='" + source + '\'' +
                 ", picture='" + picture + '\'' +
                 ", description='" + description + '\'' +
-                ", comments_size=" + comments_size +
-                ", likes_size=" + likes_size +
                 ", name='" + name + '\'' +
                 ", category='" + category + '\'' +
                 ", profile_image='" + profile_image + '\'' +

@@ -29,6 +29,7 @@ dependencies {
     // utils
     compile("org.apache.commons:commons-dbcp2:$commonDbcp2")
     compile("com.google.guava:guava:18.0")
+    compile("joda-time:joda-time:2.6")
 
     // test
     testCompile("junit:junit")

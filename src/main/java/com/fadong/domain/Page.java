@@ -1,7 +1,5 @@
 package com.fadong.domain;
 
-import com.fadong.service.dto.PageDto;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 

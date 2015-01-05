@@ -15,5 +15,7 @@ hs_err_pid*
 
 
 # intelliJ setting
-.iml
-.idea
+*.iml
+*.idea
+*.ipr
+*.iws

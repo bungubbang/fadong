@@ -2,7 +2,6 @@ package com.fadong.service;
 
 import com.fadong.domain.AccessToken;
 import com.fadong.repository.AccessTokenRepository;
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
