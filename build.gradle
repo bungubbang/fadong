@@ -21,7 +21,6 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
 
     // mysql jdbc driver
     compile("mysql:mysql-connector-java:$mysqlVersion")

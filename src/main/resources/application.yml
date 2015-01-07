@@ -1,0 +1,29 @@
+spring:
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+---
+spring:
+  profiles: local
+jdbc:
+  driver: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/fadong?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8
+  username: root
+  password:
+FACEBOOK_APP_ID: 514013175372206
+FACEBOOK_APP_SECRET: 40138e1e285c6ca347281fdf10e037ec
+FACEBOOK_REDIRECT_URI: http://local.fe-vi.com:8080/token/login/callback
+FACEBOOK_SCOPE: friends_videos user_videos
+---
+spring:
+  profiles: production
+jdbc:
+  driver: com.mysql.jdbc.Driver
+  url: jdbc:mysql://fe-vi.com:3306/fadong?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8
+  username: root
+  password: dandi1147
+FACEBOOK_APP_ID: 664982483560405
+FACEBOOK_APP_SECRET: b43ece70da3850e7751c2da470d3785d
+FACEBOOK_REDIRECT_URI: http://fe-vi.com/token/login/callback
+FACEBOOK_SCOPE: friends_videos user_videos
