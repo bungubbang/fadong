@@ -7,12 +7,16 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
+apply plugin: 'war'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 repositories {
     mavenCentral()
+}
+
+configurations {
+    providedRuntime
 }
 
 dependencies {
@@ -32,6 +36,8 @@ dependencies {
 
     // test
     testCompile("junit:junit")
+
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 }
 
 task wrapper(type: Wrapper) {

@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="web" name="Web Gradle : fadong.war">
+      <configuration>
+        <webroots />
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/src/main/java" />
+          <root url="file://$MODULE_DIR$/src/main/resources" />
+        </sourceRoots>
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
@@ -36,11 +47,6 @@
     <orderEntry type="library" exported="" name="Gradle: spring-boot-starter-logging-1.2.0.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: spring-boot-starter-1.2.0.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: snakeyaml-1.14" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: tomcat-embed-core-8.0.15" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: tomcat-embed-el-8.0.15" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: tomcat-embed-logging-juli-8.0.15" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: tomcat-embed-websocket-8.0.15" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: spring-boot-starter-tomcat-1.2.0.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: jackson-annotations-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: jackson-core-2.4.4" level="project" />
     <orderEntry type="library" exported="" name="Gradle: jackson-databind-2.4.4" level="project" />
@@ -84,6 +90,11 @@
     <orderEntry type="library" scope="TEST" name="Gradle: junit-4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: hamcrest-core-1.3" level="project" />
     <orderEntry type="library" exported="" name="Gradle: joda-time-2.6" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: spring-boot-starter-tomcat-1.2.0.RELEASE" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: tomcat-embed-core-8.0.15" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: tomcat-embed-el-8.0.15" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: tomcat-embed-logging-juli-8.0.15" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: tomcat-embed-websocket-8.0.15" level="project" />
   </component>
 </module>
 
