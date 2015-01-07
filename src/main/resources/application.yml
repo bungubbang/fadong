@@ -20,7 +20,7 @@ spring:
   profiles: production
 jdbc:
   driver: com.mysql.jdbc.Driver
-  url: jdbc:mysql://fe-vi.com:3306/fadong?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8
+  url: jdbc:mysql://0.0.0.0:3306/fadong?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8
   username: root
   password: dandi1147
 FACEBOOK_APP_ID: 664982483560405
