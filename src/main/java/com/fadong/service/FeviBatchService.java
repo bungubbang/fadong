@@ -10,6 +10,7 @@ import com.fadong.repository.UserRepository;
 import com.fadong.service.dto.CardDto;
 import com.fadong.service.dto.PageDto;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,7 @@ public class FeviBatchService implements BatchService {
 
         }
 
-        log.info("pageUpdate : {} ", DateTime.now().toString("yyyy-MM-SS HH:mm"));
+        log.info("pageUpdate : {} ", DateTime.now(DateTimeZone.forOffsetHours(9)).toString("yyyy-MM-SS HH:mm"));
     }
 
     @Override
@@ -107,7 +108,8 @@ public class FeviBatchService implements BatchService {
             }
         }
 
-        log.info("cardUpdate : {} ", DateTime.now().toString("yyyy-MM-SS HH:mm"));
+
+        log.info("cardUpdate : {} ", DateTime.now(DateTimeZone.forOffsetHours(9)).toString("yyyy-MM-dd HH:mm"));
     }
 
     @Override
@@ -124,7 +126,7 @@ public class FeviBatchService implements BatchService {
             i++;
         }
 
-        log.info("cardUpdateAll : {} , count : {}", DateTime.now().toString("yyyy-MM-SS HH:mm"), cards.getTotalElements());
+        log.info("cardUpdateAll : {} , count : {}", DateTime.now(DateTimeZone.forOffsetHours(9)).toString("yyyy-MM-dd HH:mm"), cards.getTotalElements());
     }
 
     private org.springframework.data.domain.Page<Card> cardInfoUpdate(AccessToken accessToken, int i) {
