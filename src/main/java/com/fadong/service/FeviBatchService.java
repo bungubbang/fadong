@@ -53,7 +53,7 @@ public class FeviBatchService implements BatchService {
     private AccessTokenService accessTokenService;
 
     @Override
-    @Scheduled(cron = "0 0 4 * * *")
+    @Scheduled(cron = "0 0 19 * * *")
     public void updatePage() {
         AccessToken accessToken = accessTokenService.refreshAccessToken();
         List<Page> pages = pageRepository.findAll();
@@ -113,7 +113,7 @@ public class FeviBatchService implements BatchService {
     }
 
     @Override
-    @Scheduled(cron = "0 0 5 * * *")
+    @Scheduled(cron = "0 0 20 * * *")
     public void updateCardAll() {
 
         AccessToken accessToken = accessTokenService.refreshAccessToken();
