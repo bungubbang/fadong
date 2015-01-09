@@ -35,14 +35,18 @@ public class ApiController {
 
     @RequestMapping(value = "card")
     public Page<Card> card(Pageable pageable, @RequestParam(required = false) final String category) {
-        if(Strings.isNullOrEmpty(category)) {
-            return cardRepository.findAll(pageable);
-        }
-
         return cardRepository.findAll(new Specification<Card>() {
             @Override
             public Predicate toPredicate(Root<Card> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.equal(root.get("category"), category);
+                if (!query.getResultType().equals(Long.class)) {
+                    query.orderBy(cb.desc(root.get("updated_time")));
+                }
+
+                if(!Strings.isNullOrEmpty(category)) {
+                    return cb.equal(root.get("category"), category);
+                }
+
+                return null;
             }
         }, pageable);
     }
