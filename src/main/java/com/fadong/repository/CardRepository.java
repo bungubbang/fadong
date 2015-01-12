@@ -4,6 +4,10 @@ import com.fadong.domain.Card;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.List;
+
+import static com.fadong.domain.Card.STATUS;
+
 /**
  * Created by 1000742
  * Email: sungyong.jung@sk.com
@@ -11,5 +15,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  */
 public interface CardRepository extends JpaRepository<Card, String>,
                                         JpaSpecificationExecutor<Card> {
+
+    List<Card> findByStatus(STATUS status);
 
 }

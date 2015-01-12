@@ -38,13 +38,8 @@ public class FeviBatchService implements BatchService {
 
     Logger log = LoggerFactory.getLogger(FeviBatchService.class);
 
-
-    @Autowired
-    private AccessTokenRepository tokenRepository;
     @Autowired
     private CardRepository cardRepository;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private PageRepository pageRepository;
     @Autowired
@@ -73,8 +68,7 @@ public class FeviBatchService implements BatchService {
                 pageRepository.save(page);
             } catch (HttpClientErrorException e) {
                 if(e.getStatusCode().is4xxClientError()) {
-                    log.info("deletePage : {} ", page);
-                    pageRepository.delete(page);
+                    log.info("errorUpdatePage : {} ", page);
                 }
             }
 
@@ -89,6 +83,7 @@ public class FeviBatchService implements BatchService {
         AccessToken accessToken = accessTokenService.refreshAccessToken();
         List<Page> pages = pageRepository.findAll();
         for (Page page : pages) {
+
             StringBuilder profile = new StringBuilder();
             profile.append("https://graph.facebook.com");
             profile.append("/" + page.getId());
@@ -99,7 +94,7 @@ public class FeviBatchService implements BatchService {
 
             for (CardDataDto cardDataDto : updateCard.getData()) {
                 Card card = cardRepository.findOne(cardDataDto.getId());
-                if(card == null) {
+                if (card == null) {
                     card = new Card();
                 }
                 card.updateByDto(cardDataDto, page);
@@ -107,7 +102,6 @@ public class FeviBatchService implements BatchService {
 
             }
         }
-
 
         log.info("cardUpdate : {} ", DateTime.now(DateTimeZone.forOffsetHours(9)).toString("yyyy-MM-dd HH:mm"));
     }
@@ -141,14 +135,20 @@ public class FeviBatchService implements BatchService {
                 CardDataDto updateCard = restTemplate.getForObject(builder.toString(), CardDataDto.class);
 
                 card.updateByDto(updateCard);
+
+            } catch (HttpClientErrorException e) {
+                cardErrorProcess(card, e);
+            } finally {
                 cardRepository.save(card);
-            }catch (HttpClientErrorException e) {
-                if(e.getStatusCode().is4xxClientError()) {
-                    log.info("deleteCard : {} ", card.getId());
-                    cardRepository.delete(card);
-                }
             }
         }
         return cards;
+    }
+
+    private void cardErrorProcess(Card card, HttpClientErrorException e) {
+        if(e.getStatusCode().is4xxClientError()) {
+            log.info("errorUpdateCard : {} ", card.getId());
+            card.setStatus(Card.STATUS.DISABLE);
+        }
     }
 }

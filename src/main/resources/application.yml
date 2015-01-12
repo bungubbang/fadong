@@ -6,6 +6,8 @@ spring:
 ---
 spring:
   profiles: local
+  jpa:
+    show-sql: true
 jdbc:
   driver: com.mysql.jdbc.Driver
   url: jdbc:mysql://localhost:3306/fadong?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8

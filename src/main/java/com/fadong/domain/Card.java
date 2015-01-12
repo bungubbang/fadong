@@ -3,6 +3,8 @@ package com.fadong.domain;
 import com.fadong.service.dto.CardDto;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
 import static com.fadong.service.dto.CardDto.CardDataDto.CardFormatDto;
@@ -32,7 +34,12 @@ public class Card {
     private String updated_time;
     private String created_time;
 
-    public Card() {}
+    @Enumerated(EnumType.STRING)
+    private STATUS status;
+
+    public Card() {
+        this.status = STATUS.ENABLE;
+    }
 
     public String getId() {
         return id;
@@ -82,6 +89,14 @@ public class Card {
     }
     public void setProfile_image(String profile_image) {
         this.profile_image = profile_image;
+    }
+
+    public STATUS getStatus() {
+        return status;
+    }
+
+    public void setStatus(STATUS status) {
+        this.status = status;
     }
 
     public String getUpdated_time() {
@@ -146,5 +161,9 @@ public class Card {
                 ", updated_time='" + updated_time + '\'' +
                 ", created_time='" + created_time + '\'' +
                 '}';
+    }
+
+    public static enum STATUS {
+        ENABLE, DISABLE
     }
 }
