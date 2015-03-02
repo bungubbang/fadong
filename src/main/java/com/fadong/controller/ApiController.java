@@ -37,7 +37,7 @@ public class ApiController {
     @Autowired private BatchService batchService;
 
     @RequestMapping(value = "card")
-    public Page<Card> card(Pageable pageable, @RequestParam(required = false) final String category) {
+    public Page<Card> card(Pageable pageable, @RequestParam(required = false) final String category, @RequestParam(required = false) final String id) {
         return cardRepository.findAll(new Specification<Card>() {
             @Override
             public Predicate toPredicate(Root<Card> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -50,6 +50,13 @@ public class ApiController {
                     return cb.and(
                             cb.equal(root.get("status"), Card.STATUS.ENABLE),
                             cb.equal(root.get("category"), category)
+                    );
+                }
+
+                if(!Strings.isNullOrEmpty(id)) {
+                    return cb.and(
+                            cb.equal(root.get("status"), Card.STATUS.ENABLE),
+                            cb.equal(root.get("id"), id)
                     );
                 }
 

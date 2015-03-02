@@ -2,10 +2,7 @@ package com.fadong.domain;
 
 import com.fadong.service.dto.CardDto;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import static com.fadong.service.dto.CardDto.CardDataDto.CardFormatDto;
 
@@ -22,6 +19,9 @@ public class Card {
 
     private String source;
     private String picture;
+
+    @Lob
+    @Column(length = 100000)
     private String description;
 
     /*
