@@ -41,8 +41,6 @@ public class PageUpdateConfig {
     @PersistenceUnit
     EntityManagerFactory entityManagerFactory;
 
-    @Autowired
-    private Step accessTokenStep;
 
     @Autowired
     private BatchService batchService;
@@ -82,8 +80,7 @@ public class PageUpdateConfig {
     public Job pageUpdateJob(JobBuilderFactory jobBuilder, StepBuilderFactory stepBuilder) {
         return jobBuilder.get(BATCH_JOB_NAME)
                 .incrementer(new RunIdIncrementer())
-                .start(accessTokenStep)
-                .next(pageUpdateStep(stepBuilder))
+                .start(pageUpdateStep(stepBuilder))
                 .listener(new ReportJobListener())
                 .build();
     }

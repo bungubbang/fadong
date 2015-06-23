@@ -44,9 +44,6 @@ public class AllCardUpdateConfig {
     @Autowired
     private BatchService batchService;
 
-    @Autowired
-    private Step accessTokenStep;
-
     @Bean
     public ItemReader<Card> cardAllUpdateItemReader() {
         JpaPagingItemReader<Card> itemReader = new JpaPagingItemReader<>();
@@ -82,8 +79,7 @@ public class AllCardUpdateConfig {
     public Job cardAllUpdateJob(JobBuilderFactory jobBuilder, StepBuilderFactory stepBuilder) {
         return jobBuilder.get(BATCH_JOB_NAME)
                 .incrementer(new RunIdIncrementer())
-                .start(accessTokenStep)
-                .next(cardAllUpdateStep(stepBuilder))
+                .start(cardAllUpdateStep(stepBuilder))
                 .listener(new ReportJobListener())
                 .build();
     }

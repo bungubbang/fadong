@@ -79,7 +79,7 @@ public class RecentCardUpdateConfig {
     }
 
     @Bean
-    public Job pageUpdateJob(JobBuilderFactory jobBuilder, StepBuilderFactory stepBuilder) {
+    public Job cardUpdateJob(JobBuilderFactory jobBuilder, StepBuilderFactory stepBuilder) {
         return jobBuilder.get(BATCH_JOB_NAME)
                 .incrementer(new RunIdIncrementer())
                 .start(accessTokenStep)

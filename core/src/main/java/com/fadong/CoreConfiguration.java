@@ -1,5 +1,6 @@
 package com.fadong;
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -11,4 +12,7 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import(value = {PersistenceConfiguration.class, ModuleConfiguration.class})
 public class CoreConfiguration {
+    public static void main(String[] args) {
+
+    }
 }

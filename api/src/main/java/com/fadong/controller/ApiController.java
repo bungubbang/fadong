@@ -73,8 +73,6 @@ public class ApiController {
         page.setCategory(pageUpdateDto.getCategory());
         pageRepository.save(page);
 
-        batchService.updatePage();
-
         return page;
     }
 

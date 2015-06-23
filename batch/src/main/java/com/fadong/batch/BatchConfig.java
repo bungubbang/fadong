@@ -19,12 +19,10 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableBatchProcessing
-@Import({
-        CoreConfiguration.class,
+@Import({CoreConfiguration.class,
         PageUpdateConfig.class,
         RecentCardUpdateConfig.class,
-        AllCardUpdateConfig.class
-})
+        AllCardUpdateConfig.class})
 public class BatchConfig {
 
     @Bean
