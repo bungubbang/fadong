@@ -14,3 +14,11 @@ FACEBOOK_APP_ID: 664982483560405
 FACEBOOK_APP_SECRET: b43ece70da3850e7751c2da470d3785d
 FACEBOOK_REDIRECT_URI: http://fe-vi.com/token/login/callback
 FACEBOOK_SCOPE: user_videos
+---
+spring:
+  profiles: cafe24
+
+FACEBOOK_APP_ID: 664982483560405
+FACEBOOK_APP_SECRET: b43ece70da3850e7751c2da470d3785d
+FACEBOOK_REDIRECT_URI: http://fe-vi.com/token/login/callback
+FACEBOOK_SCOPE: user_videos

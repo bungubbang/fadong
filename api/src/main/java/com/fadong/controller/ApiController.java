@@ -4,8 +4,12 @@ import com.fadong.controller.dto.PageUpdateDto;
 import com.fadong.repository.CardRepository;
 import com.fadong.domain.Card;
 import com.fadong.repository.PageRepository;
+import com.fadong.service.ApiService;
 import com.fadong.service.BatchService;
+import com.fadong.service.dto.CardSearch;
 import com.google.common.base.Strings;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+import static org.apache.commons.logging.LogFactory.getLog;
+import static org.slf4j.LoggerFactory.getLogger;
+
 /**
  * Created by bungubbang
  * Email: sungyong.jung@sk.com
@@ -29,41 +36,16 @@ import java.util.List;
 @RequestMapping("api")
 public class ApiController {
 
-    Logger log = LoggerFactory.getLogger(ApiController.class);
+    private static final Log log = getLog(ApiController.class);
 
     @Autowired private CardRepository cardRepository;
     @Autowired private PageRepository pageRepository;
-    @Autowired private BatchService batchService;
+    @Autowired private ApiService apiService;
 
     @RequestMapping(value = "card")
     public Page<Card> card(Pageable pageable, @RequestParam(required = false) final String category, @RequestParam(required = false) final String id) {
-        return cardRepository.findAll(new Specification<Card>() {
-            @Override
-            public Predicate toPredicate(Root<Card> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                if (!query.getResultType().equals(Long.class)) {
-                    query.orderBy(cb.desc(root.get("updated_time")));
-                }
-
-
-                if(!Strings.isNullOrEmpty(category)) {
-                    return cb.and(
-                            cb.equal(root.get("status"), Card.STATUS.ENABLE),
-                            cb.equal(root.get("category"), category)
-                    );
-                }
-
-                if(!Strings.isNullOrEmpty(id)) {
-                    return cb.and(
-                            cb.equal(root.get("status"), Card.STATUS.ENABLE),
-                            cb.equal(root.get("id"), id)
-                    );
-                }
-
-                return cb.and(
-                        cb.equal(root.get("status"), Card.STATUS.ENABLE)
-                );
-            }
-        }, pageable);
+        log.info("Call card api : pageable = [" + pageable + "], category = [" + category + "], id = [" + id + "]");
+        return apiService.getCard(new CardSearch(id, category, pageable));
     }
 
     @RequestMapping(value = "page/update", method = RequestMethod.POST)

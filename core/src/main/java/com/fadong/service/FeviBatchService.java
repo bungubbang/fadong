@@ -1,21 +1,15 @@
 package com.fadong.service;
 
-import com.fadong.domain.AccessToken;
 import com.fadong.domain.Card;
 import com.fadong.domain.Page;
 import com.fadong.repository.CardRepository;
 import com.fadong.repository.PageRepository;
 import com.fadong.service.dto.CardDto;
-import com.fadong.service.dto.PageDto;
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
@@ -26,9 +20,9 @@ import java.util.Date;
  * Date: 11/16/14
  */
 @Service
-public class ApiBatchService implements BatchService {
+public class FeviBatchService implements BatchService {
 
-    Log log = LogFactory.getLog(ApiBatchService.class);
+    Log log = LogFactory.getLog(FeviBatchService.class);
 
     @Autowired
     private CardRepository cardRepository;
