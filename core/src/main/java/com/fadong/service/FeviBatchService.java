@@ -89,4 +89,9 @@ public class FeviBatchService implements BatchService {
 
         return card.updateByDto(updateCard);
     }
+
+    @Override
+    public void removeCard(Card card) {
+        cardRepository.delete(card);
+    }
 }

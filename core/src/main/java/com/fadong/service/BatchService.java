@@ -12,4 +12,5 @@ public interface BatchService {
     Page updatePage(Page page);
     Page updateCardRecently(Page page);
     Card updateCardAll(Card card);
+    void removeCard(Card card);
 }

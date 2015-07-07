@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.batch.core.ItemProcessListener;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.SkipListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -21,6 +22,7 @@ import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -72,6 +74,10 @@ public class AllCardUpdateConfig {
                 .processor(cardAllUpdateProcessor())
                 .listener(new AllCardUpdateLogListener())
                 .writer(cardAllUpdateWriter())
+                .faultTolerant()
+                .skipLimit(20)
+                .skip(HttpClientErrorException.class)
+                .listener(new UpdateFailListener())
                 .build();
     }
 
@@ -112,6 +118,26 @@ public class AllCardUpdateConfig {
                 logger.error("Error to processor : " + item.getId());
             }
             e.printStackTrace();
+        }
+    }
+
+    class UpdateFailListener implements SkipListener<Card, Card> {
+
+
+        @Override
+        public void onSkipInRead(Throwable t) {
+
+        }
+
+        @Override
+        public void onSkipInWrite(Card item, Throwable t) {
+
+        }
+
+        @Override
+        public void onSkipInProcess(Card item, Throwable t) {
+            logger.error("delete card : " + item.getId());
+            batchService.removeCard(item);
         }
     }
 }
