@@ -32,6 +32,9 @@ public class Card {
     private String updated_time;
     private String created_time;
 
+    private Integer width;
+    private Integer height;
+
     @Enumerated(EnumType.STRING)
     private STATUS status;
 
@@ -117,6 +120,22 @@ public class Card {
         this.created_time = created_time;
     }
 
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
     public Card updateByDto(CardDto.CardDataDto dto) {
         CardDto.CardDataDto.CardFormatDto cardFormatDto = dto.getFormat().get(dto.getFormat().size() - 1);
 
@@ -126,6 +145,8 @@ public class Card {
         setDescription(dto.getDescription());
         setUpdated_time(dto.getUpdated_time());
         setCreated_time(dto.getCreated_time());
+        setWidth(cardFormatDto.getWidth());
+        setHeight(cardFormatDto.getHeight());
 
         return this;
     }
@@ -142,6 +163,8 @@ public class Card {
         setProfile_image(page.getProfile_image());
         setUpdated_time(dto.getUpdated_time());
         setCreated_time(dto.getCreated_time());
+        setWidth(cardFormatDto.getWidth());
+        setHeight(cardFormatDto.getHeight());
 
         return this;
     }
@@ -158,6 +181,9 @@ public class Card {
                 ", profile_image='" + profile_image + '\'' +
                 ", updated_time='" + updated_time + '\'' +
                 ", created_time='" + created_time + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", status=" + status +
                 '}';
     }
 
