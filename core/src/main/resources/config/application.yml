@@ -31,10 +31,12 @@ FACEBOOK_SCOPE: user_videos
 spring:
   profiles: cafe24
   datasource:
-      url: jdbc:mysql://localhost/munsangdong?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8
+      url: jdbc:mysql://localhost/munsangdong?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8&?autoReconnect=true
       username: munsangdong
       password: 'e6/Uafq7AoEoJQ'
       driver-class-name: com.mysql.jdbc.Driver
+      test-on-borrow: true
+      validation-query: SELECT 1
 FACEBOOK_APP_ID: 403677719733998
 FACEBOOK_APP_SECRET: 4f29e57db1d00a28a324eab47ab31e8a
 FACEBOOK_REDIRECT_URI: http://munsangdong.cafe24.com/token/login/callback

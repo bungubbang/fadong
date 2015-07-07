@@ -2,6 +2,7 @@ package com.fadong;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,11 @@ public class FadongApplication extends SpringBootServletInitializer {
         encodingFilter.setEncoding("UTF-8");
         encodingFilter.setForceEncoding(true);
         return encodingFilter;
+    }
+
+    @Bean
+    public CORSFilter corsFilter() {
+        return new CORSFilter();
     }
 
 
