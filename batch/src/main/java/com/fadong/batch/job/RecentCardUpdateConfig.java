@@ -20,6 +20,7 @@ import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -75,6 +76,9 @@ public class RecentCardUpdateConfig {
                 .processor(cardRecentUpdateProcessor())
                 .listener(new RecentCardUpdateLogListener())
                 .writer(cardRecentUpdateWriter())
+                .faultTolerant()
+                .skipLimit(5)
+                .skip(Exception.class)
                 .build();
     }
 
