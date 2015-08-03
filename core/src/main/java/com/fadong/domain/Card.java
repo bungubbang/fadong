@@ -27,10 +27,15 @@ public class Card {
     */
     private String name;
     private String category;
-    private String profile_image;
 
-    private String updated_time;
-    private String created_time;
+    @Column(name = "profile_image")
+    private String profileImage;
+
+    @Column(name = "updated_time")
+    private String updatedTime;
+
+    @Column(name = "created_time")
+    private String createdTime;
 
     private Integer width;
     private Integer height;
@@ -85,11 +90,11 @@ public class Card {
         this.category = category;
     }
 
-    public String getProfile_image() {
-        return profile_image;
+    public String getProfileImage() {
+        return profileImage;
     }
-    public void setProfile_image(String profile_image) {
-        this.profile_image = profile_image;
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public STATUS getStatus() {
@@ -100,24 +105,24 @@ public class Card {
         this.status = status;
     }
 
-    public String getUpdated_time() {
-        if(created_time != null) {
-            return updated_time.split("T")[0];
+    public String getUpdatedTime() {
+        if(createdTime != null) {
+            return updatedTime.split("T")[0];
         }
-        return updated_time;
+        return updatedTime;
     }
-    public void setUpdated_time(String updated_time) {
-        this.updated_time = updated_time;
+    public void setUpdatedTime(String updatedTime) {
+        this.updatedTime = updatedTime;
     }
 
-    public String getCreated_time() {
-        if(created_time != null) {
-            return created_time.split("T")[0];
+    public String getCreatedTime() {
+        if(createdTime != null) {
+            return createdTime.split("T")[0];
         }
-        return created_time;
+        return createdTime;
     }
-    public void setCreated_time(String created_time) {
-        this.created_time = created_time;
+    public void setCreatedTime(String createdTime) {
+        this.createdTime = createdTime;
     }
 
     public Integer getWidth() {
@@ -143,8 +148,8 @@ public class Card {
         setSource(dto.getSource());
         setPicture(cardFormatDto.getPicture());
         setDescription(dto.getDescription());
-        setUpdated_time(dto.getUpdated_time());
-        setCreated_time(dto.getCreated_time());
+        setUpdatedTime(dto.getUpdated_time());
+        setCreatedTime(dto.getCreated_time());
         setWidth(cardFormatDto.getWidth());
         setHeight(cardFormatDto.getHeight());
 
@@ -160,9 +165,9 @@ public class Card {
         setDescription(dto.getDescription());
         setName(page.getName());
         setCategory(page.getCategory());
-        setProfile_image(page.getProfile_image());
-        setUpdated_time(dto.getUpdated_time());
-        setCreated_time(dto.getCreated_time());
+        setProfileImage(page.getProfile_image());
+        setUpdatedTime(dto.getUpdated_time());
+        setCreatedTime(dto.getCreated_time());
         setWidth(cardFormatDto.getWidth());
         setHeight(cardFormatDto.getHeight());
 
@@ -178,9 +183,9 @@ public class Card {
                 ", description='" + description + '\'' +
                 ", name='" + name + '\'' +
                 ", category='" + category + '\'' +
-                ", profile_image='" + profile_image + '\'' +
-                ", updated_time='" + updated_time + '\'' +
-                ", created_time='" + created_time + '\'' +
+                ", profileImage='" + profileImage + '\'' +
+                ", updatedTime='" + updatedTime + '\'' +
+                ", createdTime='" + createdTime + '\'' +
                 ", width=" + width +
                 ", height=" + height +
                 ", status=" + status +

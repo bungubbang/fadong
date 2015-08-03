@@ -17,5 +17,7 @@ public interface CardRepository extends JpaRepository<Card, String>,
                                         JpaSpecificationExecutor<Card> {
 
     List<Card> findByStatus(STATUS status);
+    List<Card> findByCreatedTimeLikeAndCategory(String createTime, String category);
+    List<Card> findByCreatedTimeLike(String createTime);
 
 }

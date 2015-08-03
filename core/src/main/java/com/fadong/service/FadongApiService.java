@@ -36,7 +36,7 @@ public class FadongApiService implements ApiService {
     public Page<Card> getCard(CardSearch search) {
         return cardRepository.findAll((root, query, cb) -> {
             if (!query.getResultType().equals(Long.class)) {
-                query.orderBy(cb.desc(root.get("updated_time")));
+                query.orderBy(cb.desc(root.get("updatedTime")));
             }
 
 
