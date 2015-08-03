@@ -125,6 +125,18 @@ public class Card {
         this.createdTime = createdTime;
     }
 
+    public String getCreated_time() {
+        return getCreatedTime();
+    }
+
+    public String getUpdated_time() {
+        return getUpdatedTime();
+    }
+
+    public String getProfile_image() {
+        return getProfileImage();
+    }
+
     public Integer getWidth() {
         return width;
     }

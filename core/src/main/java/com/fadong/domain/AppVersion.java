@@ -15,6 +15,8 @@ public class AppVersion {
 
     private boolean forceUpdate = false;
 
+    private Integer versionCode;
+
     public String getVersion() {
         return version;
     }
@@ -29,5 +31,13 @@ public class AppVersion {
 
     public void setForceUpdate(boolean forceUpdate) {
         this.forceUpdate = forceUpdate;
+    }
+
+    public Integer getVersionCode() {
+        return versionCode;
+    }
+
+    public void setVersionCode(Integer versionCode) {
+        this.versionCode = versionCode;
     }
 }

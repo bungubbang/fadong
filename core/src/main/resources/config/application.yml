@@ -14,7 +14,7 @@ spring:
 FACEBOOK_APP_ID: 514013175372206
 FACEBOOK_APP_SECRET: 40138e1e285c6ca347281fdf10e037ec
 FACEBOOK_REDIRECT_URI: http://local.fe-vi.com:8080/token/login/callback
-FACEBOOK_SCOPE: user_videos
+FACEBOOK_SCOPE: user_videos manage_pages publish_pages
 ---
 spring:
   profiles: production
@@ -26,7 +26,7 @@ spring:
 FACEBOOK_APP_ID: 664982483560405
 FACEBOOK_APP_SECRET: b43ece70da3850e7751c2da470d3785d
 FACEBOOK_REDIRECT_URI: http://fe-vi.com/token/login/callback
-FACEBOOK_SCOPE: user_videos
+FACEBOOK_SCOPE: user_videos manage_pages publish_pages
 ---
 spring:
   profiles: cafe24
@@ -40,7 +40,7 @@ spring:
 FACEBOOK_APP_ID: 403677719733998
 FACEBOOK_APP_SECRET: 4f29e57db1d00a28a324eab47ab31e8a
 FACEBOOK_REDIRECT_URI: http://munsangdong.cafe24.com/token/login/callback
-FACEBOOK_SCOPE: user_videos
+FACEBOOK_SCOPE: user_videos manage_pages publish_pages
 ---
 spring:
   profiles: cafe24local
@@ -52,5 +52,5 @@ spring:
 FACEBOOK_APP_ID: 403677719733998
 FACEBOOK_APP_SECRET: 4f29e57db1d00a28a324eab47ab31e8a
 FACEBOOK_REDIRECT_URI: http://munsangdong.cafe24.com/token/login/callback
-FACEBOOK_SCOPE: user_videos
+FACEBOOK_SCOPE: user_videos manage_pages publish_pages
 
