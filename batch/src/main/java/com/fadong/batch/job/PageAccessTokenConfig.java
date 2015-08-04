@@ -100,6 +100,7 @@ public class PageAccessTokenConfig {
         public PageToken process(PageToken item) throws Exception {
             String accessToken = accessTokenRepository.findAll().get(0).getAccessToken();
             String url = TOKEN_URL + "&access_token=" + accessToken;
+            logger.info("url = " + url);
             PageToken pageToken = restTemplate.getForObject(url, PageToken.class);
             return pageToken;
         }
