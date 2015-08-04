@@ -30,6 +30,14 @@ public class PageToken {
         this.accessToken = accessToken;
     }
 
+    public String getAccess_token() {
+        return getAccessToken();
+    }
+
+    public void setAccess_token(String access_token) {
+        setAccessToken(access_token);
+    }
+
     @Override
     public String toString() {
         return "PageToken{" +
