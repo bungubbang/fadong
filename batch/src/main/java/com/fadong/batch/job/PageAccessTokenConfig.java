@@ -4,6 +4,8 @@ import com.fadong.batch.ReportJobListener;
 import com.fadong.domain.PageToken;
 import com.fadong.repository.AccessTokenRepository;
 import com.fadong.repository.PageTokenRepository;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.batch.core.ItemProcessListener;
@@ -101,8 +103,9 @@ public class PageAccessTokenConfig {
             String accessToken = accessTokenRepository.findAll().get(0).getAccessToken();
             String url = TOKEN_URL + "&access_token=" + accessToken;
             logger.info("url = " + url);
-            PageToken pageToken = restTemplate.getForObject(url, PageToken.class);
-            return pageToken;
+            JsonObject json = restTemplate.getForObject(url, JsonObject.class);
+            item.setAccessToken(json.get("access_token").getAsString());
+            return item;
         }
     }
 
