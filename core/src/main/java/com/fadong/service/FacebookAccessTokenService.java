@@ -81,7 +81,7 @@ public class FacebookAccessTokenService implements AccessTokenService {
     private AccessToken generateToken(String tokenParam) {
         String[] params = tokenParam.split("&");
         String[] token = params[0].split("=");
-        String[] expires = params[1].split("=");
+
         List<AccessToken> all = tokenRepository.findAll();
         AccessToken accessToken;
 
@@ -92,7 +92,13 @@ public class FacebookAccessTokenService implements AccessTokenService {
         }
 
         accessToken.setAccessToken(token[1]);
-        accessToken.setExpires(expires[1]);
+
+        if(params.length > 1) {
+            String[] expires = params[1].split("=");
+            accessToken.setExpires(expires[1]);
+        } else {
+            accessToken.setExpires("");
+        }
         accessToken.setCreateTime(new Date().toString());
         return accessToken;
     }
