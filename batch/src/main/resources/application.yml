@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+  cache:
+    cache-names: cards
+    guava.spec: maximumSize=500,expireAfterAccess=600s
+
+

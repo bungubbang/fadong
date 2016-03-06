@@ -1,0 +1,24 @@
+---
+spring:
+  profiles: local
+
+FACEBOOK_APP_ID: 514013175372206
+FACEBOOK_APP_SECRET: 40138e1e285c6ca347281fdf10e037ec
+FACEBOOK_REDIRECT_URI: http://local.fe-vi.com:8080/token/login/callback
+FACEBOOK_SCOPE: user_videos
+---
+spring:
+  profiles: production
+
+FACEBOOK_APP_ID: 664982483560405
+FACEBOOK_APP_SECRET: b43ece70da3850e7751c2da470d3785d
+FACEBOOK_REDIRECT_URI: http://fe-vi.com/token/login/callback
+FACEBOOK_SCOPE: user_videos
+---
+spring:
+  profiles: cafe24
+
+FACEBOOK_APP_ID: 664982483560405
+FACEBOOK_APP_SECRET: b43ece70da3850e7751c2da470d3785d
+FACEBOOK_REDIRECT_URI: http://fe-vi.com/token/login/callback
+FACEBOOK_SCOPE: user_videos

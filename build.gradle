@@ -7,29 +7,79 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'spring-boot'
-
-repositories {
-    mavenCentral()
+configure(allprojects) {
+    repositories {
+        mavenCentral()
+    }
 }
 
-dependencies {
-    // spring boot
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+configure(subprojects) {
+    apply plugin: 'idea'
+    apply plugin: 'spring-boot'
 
-    // mysql jdbc driver
-    compile("mysql:mysql-connector-java:$mysqlVersion")
-    compile("org.apache.commons:commons-dbcp2:$commonDbcp2")
+    dependencies {
 
-    // utils
-    testCompile("junit:junit")
+    }
 }
+
+project(':core') {
+    description = "fadong core"
+
+
+    dependencies {
+        compile("org.springframework:spring-web")
+        compile("org.springframework:spring-context-support")
+        compile("org.springframework.boot:spring-boot-starter")
+        compile("org.springframework:spring-context")
+        compile("org.springframework.boot:spring-boot-starter-data-jpa")
+
+
+        // mysql jdbc driver
+        compile("mysql:mysql-connector-java:$mysqlVersion")
+
+        // utils
+        compile("org.apache.commons:commons-dbcp2:$commonDbcp2")
+        compile("com.google.guava:guava:18.0")
+        compile("joda-time:joda-time:2.6")
+        compile("org.json:json:20140107")
+        compile("com.google.code.gson:gson:2.3.1")
+
+    }
+}
+
+project(':api') {
+    description = "api 서버"
+
+    apply plugin: 'war'
+
+    dependencies {
+        compile project(':core')
+        // spring boot
+        compile("org.springframework.boot:spring-boot-starter-actuator")
+        compile("org.springframework.boot:spring-boot-starter-web")
+        compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+
+        // test
+        testCompile("junit:junit")
+
+        providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    }
+}
+
+project(':batch') {
+    description = "batch"
+
+    apply plugin: 'java'
+
+    dependencies {
+        compile project(':core')
+        // spring boot
+        compile("org.springframework.boot:spring-boot-starter")
+        compile("org.springframework.boot:spring-boot-starter-batch")
+    }
+}
+
+
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.12'

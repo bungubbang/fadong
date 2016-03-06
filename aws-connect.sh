@@ -1,0 +1,1 @@
+ssh -i "bungubbang.pem" ec2-user@ec2-52-79-71-155.ap-northeast-2.compute.amazonaws.com

@@ -1,2 +1,5 @@
 rootProject.name = 'fadong'
 
+include 'batch'
+include 'api'
+include 'core'
