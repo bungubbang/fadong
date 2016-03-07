@@ -6,6 +6,7 @@ import com.fadong.repository.AccessTokenRepository;
 import com.fadong.repository.CardRepository;
 import com.fadong.domain.Card;
 import com.fadong.repository.PageRepository;
+import com.fadong.repository.PageTokenRepository;
 import com.fadong.service.ApiService;
 import com.fadong.service.dto.CardSearch;
 import org.apache.commons.logging.Log;
@@ -14,11 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.logging.LogFactory.getLog;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -38,6 +43,7 @@ public class ApiController {
     @Autowired private PageRepository pageRepository;
     @Autowired private ApiService apiService;
     @Autowired private AccessTokenRepository accessTokenRepository;
+    @Autowired private PageTokenRepository pageTokenRepository;
 
     @Autowired private RestTemplate restTemplate;
 
@@ -71,33 +77,42 @@ public class ApiController {
     }
 
     @RequestMapping(value = "post", method = RequestMethod.GET)
-    public String postRecommend(String category) {
-        String accessToken = "CAACEdEose0cBADgdvaIeYMtBPvXypMUyzJS5R6nPjDEybF5BUrYEvonIAPAkjUZBtUGnXHebX4fNIpy9HRY7SimVAsZBJYogwiFK7tggVvFZBEfHSWub7Tul155O0bZCCyZB0tvbyTHpZBu2T5ZAZBeDSGMVKjfwP6vcGGcIYZCfnKPIcL1F7Jg1NtZBaxwoSvAw6N7W3BnfUzqAZDZD";
+    public String postRecommend(@RequestParam(required = false, defaultValue = "6") Integer size) {
+        String accessToken = pageTokenRepository.findAll().get(0).getAccessToken();
         String postUrl = "https://graph.facebook.com/v2.4/ggoolzam/feed";
 
         LocalDate now = LocalDate.now();
         LocalDate yesterday = now.minusDays(1);
 
-        List<Card> cards = cardRepository.findByCreatedTimeLikeAndCategory(yesterday.toString("yyyy-MM-dd") + "%", category);
+        List<Card> cards = cardRepository.findByCreatedTimeLike(yesterday.toString("yyyy-MM-dd") + "%", new PageRequest(0, size)).getContent();
 
         StringBuilder sb = new StringBuilder();
-        sb.append(now.toString("yyyy-MM-dd") + " 오늘의 업데이트 동영상 #" + category + "\n");
+        sb.append(now.toString("yyyy-MM-dd")).append(" 오늘의 업데이트 동영상").append("\n");
 
         for (int i = 0; i < cards.size(); i++) {
-            sb.append(i + ". ");
+            sb.append((i+1) + ". ");
             String description = cards.get(i).getDescription();
             if(description.length() < 15) {
                 sb.append(description.replace("\n", "") + "\n");
             } else {
-                sb.append(description.substring(0, 20).replace("\n", "") + "\n");
+                sb.append(description.substring(0, 15).replace("\n", "") + "\n");
             }
         }
 
+
+        String[] ids = cards.stream().map(Card::getId).toArray(String[]::new);
+
+        String vids = StringUtils.arrayToDelimitedString(ids, ",");
+
+        String shortenUrl = restTemplate.getForObject("http://moonsang.kr/s.php?s=" + "http://appinkorea.co.kr/fevi/summary.php?vid=" + vids, String.class);
+
         HashMap<String, String> params = new HashMap<>();
         params.put("message", sb.toString());
-        params.put("link", "http://appinkorea.co.kr/fevi/s.php?id=facebookPage&vid=" + cards.get(0).getId());
+        params.put("link", shortenUrl);
         params.put("picture", cards.get(0).getPicture());
         params.put("access_token", accessToken);
+
+
 
         return restTemplate.postForObject(postUrl, params, String.class);
     }

@@ -35,21 +35,26 @@ public class FeviBatchService implements BatchService {
 
     @Override
     public Page updatePage(Page page) {
+        try {
+            StringBuilder profile = new StringBuilder();
+            profile.append("https://graph.facebook.com");
+            profile.append("/" + page.getId());
+            profile.append("?fields=picture.height(200).type(normal).width(200),id,name");
+            profile.append("&access_token=" + accessTokenService.getAccessToken());
 
-        StringBuilder profile = new StringBuilder();
-        profile.append("https://graph.facebook.com");
-        profile.append("/" + page.getId());
-        profile.append("?fields=picture.height(200).type(normal).width(200),id,name");
-        profile.append("&access_token=" + accessTokenService.getAccessToken());
+            JsonElement gson = restTemplate.getForObject(profile.toString(), JsonElement.class);
 
-        JsonElement gson = restTemplate.getForObject(profile.toString(), JsonElement.class);
+            JsonElement name = gson.getAsJsonObject().get("name");
+            JsonElement url = gson.getAsJsonObject().get("picture").getAsJsonObject().get("data").getAsJsonObject().get("url");
 
-        JsonElement name = gson.getAsJsonObject().get("name");
-        JsonElement url = gson.getAsJsonObject().get("picture").getAsJsonObject().get("data").getAsJsonObject().get("url");
+            page.setName(name.getAsString());
+            page.setProfile_image(url.getAsString());
+            page.setUpdateDate(new Date().toString());
+        } catch (Exception e) {
+            log.error("[Page Update ERROR] : " + page);
+            pageRepository.delete(page);
+        }
 
-        page.setName(name.getAsString());
-        page.setProfile_image(url.getAsString());
-        page.setUpdateDate(new Date().toString());
 
         return page;
     }
@@ -79,15 +84,18 @@ public class FeviBatchService implements BatchService {
 
     @Override
     public Card updateCardAll(Card card) {
+        try {
+            StringBuilder builder = new StringBuilder();
+            builder.append("https://graph.facebook.com");
+            builder.append("/" + card.getId());
+            builder.append("?access_token=" + accessTokenService.getAccessToken());
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("https://graph.facebook.com");
-        builder.append("/" + card.getId());
-        builder.append("?access_token=" + accessTokenService.getAccessToken());
-
-        CardDto.CardDataDto updateCard = restTemplate.getForObject(builder.toString(), CardDto.CardDataDto.class);
-
-        return card.updateByDto(updateCard);
+            CardDto.CardDataDto updateCard = restTemplate.getForObject(builder.toString(), CardDto.CardDataDto.class);
+            return card.updateByDto(updateCard);
+        } catch (Exception e) {
+            cardRepository.delete(card);
+        }
+        return card;
     }
 
     @Override
