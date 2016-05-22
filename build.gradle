@@ -44,6 +44,8 @@ project(':core') {
         compile("org.json:json:20140107")
         compile("com.google.code.gson:gson:2.3.1")
 
+        compile 'org.projectlombok:lombok:1.16.8'
+
     }
 }
 
