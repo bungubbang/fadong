@@ -5,7 +5,9 @@ import com.fadong.domain.Page;
 import com.fadong.repository.CardRepository;
 import com.fadong.repository.PageRepository;
 import com.fadong.service.dto.CardDto;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +44,17 @@ public class FeviBatchService implements BatchService {
             profile.append("?fields=picture.height(200).type(normal).width(200),id,name");
             profile.append("&access_token=" + accessTokenService.getAccessToken());
 
-            JsonElement gson = restTemplate.getForObject(profile.toString(), JsonElement.class);
-
+            String result = restTemplate.getForObject(profile.toString(), String.class);
+            JsonElement gson = new JsonParser().parse(result);
             JsonElement name = gson.getAsJsonObject().get("name");
             JsonElement url = gson.getAsJsonObject().get("picture").getAsJsonObject().get("data").getAsJsonObject().get("url");
 
             page.setName(name.getAsString());
             page.setProfile_image(url.getAsString());
             page.setUpdateDate(new Date().toString());
+            pageRepository.save(page);
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("[Page Update ERROR] : " + page);
             pageRepository.delete(page);
         }
@@ -91,8 +95,11 @@ public class FeviBatchService implements BatchService {
             builder.append("?access_token=" + accessTokenService.getAccessToken());
 
             CardDto.CardDataDto updateCard = restTemplate.getForObject(builder.toString(), CardDto.CardDataDto.class);
-            return card.updateByDto(updateCard);
+            Card saveCard = card.updateByDto(updateCard);
+            cardRepository.save(saveCard);
+            return saveCard;
         } catch (Exception e) {
+            e.printStackTrace();
             cardRepository.delete(card);
         }
         return card;
