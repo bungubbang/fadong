@@ -54,8 +54,13 @@ public class BatchConfig {
         accessTokenService.refreshAccessToken();
         log.info("[Update Token] : " + accessTokenService.getAccessToken());
         pageRepository.findAll().stream().forEach((page) -> {
-            log.info("[Update Card Recent] : " + page.getName());
-            batchService.updateCardRecently(page);
+            try {
+                log.info("[Update Card Recent] : " + page.getName());
+                batchService.updateCardRecently(page);
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+
         });
         return "OK";
     }

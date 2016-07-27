@@ -74,13 +74,19 @@ public class FeviBatchService implements BatchService {
         CardDto updateCard = restTemplate.getForObject(profile.toString(), CardDto.class);
 
         for (CardDto.CardDataDto cardDataDto : updateCard.getData()) {
-            Card card = cardRepository.findOne(cardDataDto.getId());
-            if (card == null) {
-                card = new Card();
+            try{
+                Card card = cardRepository.findOne(cardDataDto.getId());
+                if (card == null) {
+                    card = new Card();
+                }
+                card.updateByDto(cardDataDto, page);
+                cardRepository.save(card);
+                log.info("update card : " + card.getId());
+            } catch (Exception e) {
+                log.info("ERROR card : " + cardDataDto.getId());
+                e.printStackTrace();
             }
-            card.updateByDto(cardDataDto, page);
-            cardRepository.save(card);
-            log.info("update card : " + card.getId());
+
 
         }
         return page;
