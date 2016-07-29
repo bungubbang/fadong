@@ -39,18 +39,17 @@ public class BatchConfig {
 
     @Scheduled(cron="0 0 0 * * *")
     @RequestMapping(value = "page")
-    public String allPageUpdate() {
+    public void allPageUpdate() {
         pageRepository.findAll().stream().forEach((page) -> {
             log.info("[Update Page] : " + page.getName());
             batchService.updatePage(page);
 
         });
-        return "OK";
     }
 
     @Scheduled(cron="0 0 * * * *")
     @RequestMapping(value = "card")
-    private String recentCardUpdate() {
+    private void recentCardUpdate() {
         accessTokenService.refreshAccessToken();
         log.info("[Update Token] : " + accessTokenService.getAccessToken());
         pageRepository.findAll().stream().forEach((page) -> {
@@ -62,12 +61,11 @@ public class BatchConfig {
             }
 
         });
-        return "OK";
     }
 
     @Scheduled(cron="0 0 1 * * *")
     @RequestMapping(value = "cardAll")
-    private String cardUpdateAll() {
+    private void cardUpdateAll() {
         cardRepository.findAll().stream().forEach(card -> {
             try {
                 log.info("[Update Card All] : " + card.getId());
@@ -78,6 +76,5 @@ public class BatchConfig {
             }
 
         });
-        return "OK";
     }
 }
