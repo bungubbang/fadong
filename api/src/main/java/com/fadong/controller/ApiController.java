@@ -48,9 +48,9 @@ public class ApiController {
     @Autowired private RestTemplate restTemplate;
 
     @RequestMapping(value = "card")
-    public Page<Card> card(Pageable pageable, @RequestParam(required = false) final String category, @RequestParam(required = false) final String id) {
-        log.info("Call card api : pageable = [" + pageable + "], category = [" + category + "], id = [" + id + "]");
-        return apiService.getCard(new CardSearch(id, category, pageable));
+    public Page<Card> card(CardSearch cardSearch) {
+        log.info("Call card api : " + cardSearch.toString());
+        return apiService.getCard(cardSearch);
     }
 
     @RequestMapping(value = "page/update", method = RequestMethod.POST)

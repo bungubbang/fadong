@@ -29,9 +29,6 @@ public class BatchConfig {
     private PageRepository pageRepository;
 
     @Autowired
-    private AccessTokenRepository accessTokenRepository;
-
-    @Autowired
     private BatchService batchService;
 
     @Autowired
@@ -40,7 +37,7 @@ public class BatchConfig {
     @Scheduled(cron="0 0 0 * * *")
     @RequestMapping(value = "page")
     public void allPageUpdate() {
-        pageRepository.findAll().stream().forEach((page) -> {
+        pageRepository.findAll().forEach((page) -> {
             log.info("[Update Page] : " + page.getName());
             batchService.updatePage(page);
 
@@ -52,11 +49,11 @@ public class BatchConfig {
     private void recentCardUpdate() {
         accessTokenService.refreshAccessToken();
         log.info("[Update Token] : " + accessTokenService.getAccessToken());
-        pageRepository.findAll().stream().forEach((page) -> {
+        pageRepository.findAll().forEach((page) -> {
             try {
                 log.info("[Update Card Recent] : " + page.getName());
                 batchService.updateCardRecently(page);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

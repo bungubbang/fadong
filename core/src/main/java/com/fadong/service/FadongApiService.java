@@ -54,6 +54,13 @@ public class FadongApiService implements ApiService {
                 );
             }
 
+            if(!Strings.isNullOrEmpty(search.getKeyword())) {
+                return cb.and(
+                        cb.equal(root.get("status"), Card.STATUS.ENABLE),
+                        cb.like(root.get("description"), "%" + search.getKeyword() + "%")
+                );
+            }
+
             return cb.and(
                     cb.equal(root.get("status"), Card.STATUS.ENABLE)
             );

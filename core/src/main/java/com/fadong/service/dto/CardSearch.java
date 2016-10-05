@@ -10,11 +10,16 @@ import org.springframework.data.domain.Pageable;
 public class CardSearch {
     private String id;
     private String category;
+    private String keyword;
     private Pageable pageable;
 
-    public CardSearch(String id, String category, Pageable pageable) {
+    public CardSearch() {
+    }
+
+    public CardSearch(String id, String category, String keyword, Pageable pageable) {
         this.id = id;
         this.category = category;
+        this.keyword = keyword;
         this.pageable = pageable;
     }
 
@@ -40,5 +45,23 @@ public class CardSearch {
 
     public void setPageable(Pageable pageable) {
         this.pageable = pageable;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    @Override
+    public String toString() {
+        return "CardSearch{" +
+                "id='" + id + '\'' +
+                ", category='" + category + '\'' +
+                ", keyword='" + keyword + '\'' +
+                ", pageable=" + pageable +
+                '}';
     }
 }

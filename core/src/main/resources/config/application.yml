@@ -3,9 +3,6 @@ spring:
     hibernate.ddl-auto: update
     show-sql: false
     database-platform: org.hibernate.dialect.MySQL5Dialect
----
-spring:
-  profiles: local
   datasource:
     url: jdbc:mysql://localhost:3306/fadong?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8
     username: root
