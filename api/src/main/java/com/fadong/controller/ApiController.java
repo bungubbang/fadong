@@ -42,15 +42,14 @@ public class ApiController {
     @Autowired private CardRepository cardRepository;
     @Autowired private PageRepository pageRepository;
     @Autowired private ApiService apiService;
-    @Autowired private AccessTokenRepository accessTokenRepository;
     @Autowired private PageTokenRepository pageTokenRepository;
 
     @Autowired private RestTemplate restTemplate;
 
     @RequestMapping(value = "card")
-    public Page<Card> card(CardSearch cardSearch) {
-        log.info("Call card api : " + cardSearch.toString());
-        return apiService.getCard(cardSearch);
+    public Page<Card> card(CardSearch cardSearch, Pageable pageable) {
+        log.info("Call card api : " + cardSearch.toString() +  ", Page : " + pageable);
+        return apiService.getCard(cardSearch, pageable);
     }
 
     @RequestMapping(value = "page/update", method = RequestMethod.POST)

@@ -1,5 +1,6 @@
 package com.fadong.service.dto;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -11,16 +12,14 @@ public class CardSearch {
     private String id;
     private String category;
     private String keyword;
-    private Pageable pageable;
 
     public CardSearch() {
     }
 
-    public CardSearch(String id, String category, String keyword, Pageable pageable) {
+    public CardSearch(String id, String category, String keyword) {
         this.id = id;
         this.category = category;
         this.keyword = keyword;
-        this.pageable = pageable;
     }
 
     public String getId() {
@@ -39,14 +38,6 @@ public class CardSearch {
         this.category = category;
     }
 
-    public Pageable getPageable() {
-        return pageable;
-    }
-
-    public void setPageable(Pageable pageable) {
-        this.pageable = pageable;
-    }
-
     public String getKeyword() {
         return keyword;
     }
@@ -61,7 +52,6 @@ public class CardSearch {
                 "id='" + id + '\'' +
                 ", category='" + category + '\'' +
                 ", keyword='" + keyword + '\'' +
-                ", pageable=" + pageable +
                 '}';
     }
 }
