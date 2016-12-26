@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by bungubbang
@@ -54,7 +55,6 @@ public class FeviBatchService implements BatchService {
             page.setUpdateDate(new Date().toString());
             pageRepository.save(page);
         } catch (Exception e) {
-            e.printStackTrace();
             log.error("[Page Update ERROR] : " + page);
 //            pageRepository.delete(page);
         }
@@ -83,8 +83,9 @@ public class FeviBatchService implements BatchService {
                 cardRepository.save(card);
                 log.info("update card : " + card.getId());
             } catch (Exception e) {
-                log.info("ERROR card : " + cardDataDto.getId());
-                e.printStackTrace();
+                if(!Objects.isNull(cardDataDto)) {
+                    log.info("ERROR card : " + cardDataDto.getId());
+                }
             }
 
 
@@ -94,20 +95,25 @@ public class FeviBatchService implements BatchService {
 
     @Override
     public Card updateCardAll(Card card) {
+        CardDto.CardDataDto updateCard = null;
         try {
             StringBuilder builder = new StringBuilder();
             builder.append("https://graph.facebook.com");
             builder.append("/" + card.getId());
             builder.append("?access_token=" + accessTokenService.getAccessToken());
 
-            CardDto.CardDataDto updateCard = restTemplate.getForObject(builder.toString(), CardDto.CardDataDto.class);
+            updateCard = restTemplate.getForObject(builder.toString(), CardDto.CardDataDto.class);
             Card saveCard = card.updateByDto(updateCard);
             cardRepository.save(saveCard);
             return saveCard;
         } catch (Exception e) {
             e.printStackTrace();
-            cardRepository.delete(card);
+            if(!Objects.isNull(updateCard)) {
+                log.info("ERROR card : " + updateCard.getId());
+//            cardRepository.delete(card);
+            }
         }
+
         return card;
     }
 
