@@ -40,7 +40,6 @@ public class BatchConfig {
         pageRepository.findAll().forEach((page) -> {
             log.info("[Update Page] : " + page.getName());
             batchService.updatePage(page);
-
         });
     }
 
@@ -63,7 +62,7 @@ public class BatchConfig {
     @Scheduled(cron="0 0 1 * * *")
     @RequestMapping(value = "cardAll")
     private void cardUpdateAll() {
-        cardRepository.findAll().stream().forEach(card -> {
+        cardRepository.findAll().forEach(card -> {
             try {
                 log.info("[Update Card All] : " + card.getId());
                 batchService.updateCardAll(card);

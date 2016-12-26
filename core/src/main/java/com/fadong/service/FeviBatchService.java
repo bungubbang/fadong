@@ -56,7 +56,7 @@ public class FeviBatchService implements BatchService {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("[Page Update ERROR] : " + page);
-            pageRepository.delete(page);
+//            pageRepository.delete(page);
         }
 
 
