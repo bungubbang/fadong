@@ -1,3 +1,6 @@
+spring.thymeleaf.mode: LEGACYHTML5
+spring.thymeleaf.cache: false
+
 ---
 spring:
   profiles: local
@@ -6,6 +9,8 @@ FACEBOOK_APP_ID: 514013175372206
 FACEBOOK_APP_SECRET: 40138e1e285c6ca347281fdf10e037ec
 FACEBOOK_REDIRECT_URI: http://local.fe-vi.com:8080/token/login/callback
 FACEBOOK_SCOPE: user_videos
+
+spring.thymeleaf.mode: LEGACYHTML5
 ---
 spring:
   profiles: production

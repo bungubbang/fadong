@@ -62,6 +62,11 @@ public class ApiController {
         return page;
     }
 
+    @RequestMapping(value = "page", method = RequestMethod.GET)
+    public List<com.fadong.domain.Page> pageAll() {
+        return pageRepository.findAll();
+    }
+
     @RequestMapping(value = "card/disable", method = RequestMethod.GET)
     public List<Card> disableCardList() {
         return cardRepository.findByStatus(Card.STATUS.DISABLE);
