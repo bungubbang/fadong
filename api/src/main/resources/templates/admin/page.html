@@ -30,7 +30,7 @@
                 </form>
             </div>
             <div class="row">
-                <h1>Pages</h1>
+                <h1>Pages<button type="text" class="btn btn-default btn-page-refresh">Refresh</button></h1>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -55,6 +55,12 @@
                             console.log("add : " + $('#add-page-form').serialize());
                             refreshTable();
                         });
+            });
+
+            $('#btn-page-refresh').click(function() {
+                $.get('/batch/page', function() {
+                    refreshTable();
+                })
             });
 
             refreshTable();
