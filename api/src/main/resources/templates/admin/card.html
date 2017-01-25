@@ -22,6 +22,7 @@
         <div class="form-group">
             <label for="page-id-input">Page Id</label>
             <select class="form-control" name="id" v-model="selectedPage">
+                <option>0</option>
                 <option v-for="n in 10">
                     {{ n }}
                 </option>
@@ -59,7 +60,7 @@
         el: '#vue-app',
         data: {
             categories: ['','TREND','SPORTS','MUSIC','PET','GAME'],
-            selectedPage: 1,
+            selectedPage: 0,
             selectedCategory: '',
             cards: []
         },
