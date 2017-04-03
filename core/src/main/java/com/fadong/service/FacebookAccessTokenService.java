@@ -1,6 +1,7 @@
 package com.fadong.service;
 
 import com.fadong.domain.AccessToken;
+import com.fadong.domain.TokenResponse;
 import com.fadong.repository.AccessTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +38,7 @@ public class FacebookAccessTokenService implements AccessTokenService {
         tokenUrl.append("&client_secret=" + fbAppSecret);
         tokenUrl.append("&code=" + code);
 
-        String tokenParam = restTemplate.getForObject(tokenUrl.toString(), String.class);
+        TokenResponse tokenParam = restTemplate.getForObject(tokenUrl.toString(), TokenResponse.class);
         AccessToken accessToken = generateToken(tokenParam);
         return tokenRepository.save(accessToken);
     }
@@ -58,7 +59,7 @@ public class FacebookAccessTokenService implements AccessTokenService {
         tokenUrl.append("&grant_type=" + "fb_exchange_token");
         tokenUrl.append("&fb_exchange_token=" + accessToken.getAccessToken());
 
-        String tokenParam = restTemplate.getForObject(tokenUrl.toString(), String.class);
+        TokenResponse tokenParam = restTemplate.getForObject(tokenUrl.toString(), TokenResponse.class);
         accessToken = generateToken(tokenParam);
 
         return tokenRepository.save(accessToken);
@@ -73,14 +74,12 @@ public class FacebookAccessTokenService implements AccessTokenService {
         tokenUrl.append("&grant_type=" + "fb_exchange_token");
         tokenUrl.append("&fb_exchange_token=" + accessToken.getAccessToken());
 
-        String tokenParam = restTemplate.getForObject(tokenUrl.toString(), String.class);
+        TokenResponse tokenParam = restTemplate.getForObject(tokenUrl.toString(), TokenResponse.class);
         return generateToken(tokenParam);
     }
 
 
-    private AccessToken generateToken(String tokenParam) {
-        String[] params = tokenParam.split("&");
-        String[] token = params[0].split("=");
+    private AccessToken generateToken(TokenResponse tokenParam) {
 
         List<AccessToken> all = tokenRepository.findAll();
         AccessToken accessToken;
@@ -91,14 +90,8 @@ public class FacebookAccessTokenService implements AccessTokenService {
             accessToken = all.get(0);
         }
 
-        accessToken.setAccessToken(token[1]);
-
-        if(params.length > 1) {
-            String[] expires = params[1].split("=");
-            accessToken.setExpires(expires[1]);
-        } else {
-            accessToken.setExpires("");
-        }
+        accessToken.setAccessToken(tokenParam.getAccess_token());
+        accessToken.setExpires(tokenParam.getExpires_in());
         accessToken.setCreateTime(new Date().toString());
         return accessToken;
     }
