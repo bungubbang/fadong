@@ -4,10 +4,10 @@ spring:
     show-sql: false
     database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
-    url: jdbc:mysql://localhost:3306/fadong?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8
-    username: root
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
     password:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: org.h2.Driver
 FACEBOOK_APP_ID: 514013175372206
 FACEBOOK_APP_SECRET: 40138e1e285c6ca347281fdf10e037ec
 FACEBOOK_REDIRECT_URI: http://local.fe-vi.com:8080/token/login/callback
@@ -15,6 +15,10 @@ FACEBOOK_SCOPE: user_videos manage_pages publish_pages
 ---
 spring:
   profiles: production
+  jpa:
+      hibernate.ddl-auto: update
+      show-sql: false
+      database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
       url: jdbc:mysql://fe-vi.com:3306/fadong?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8
       username: root
@@ -27,6 +31,10 @@ FACEBOOK_SCOPE: user_videos manage_pages publish_pages
 ---
 spring:
   profiles: cafe24
+  jpa:
+      hibernate.ddl-auto: update
+      show-sql: false
+      database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
       url: jdbc:mysql://localhost/munsangdong?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8&?autoReconnect=true
       username: munsangdong
@@ -41,6 +49,10 @@ FACEBOOK_SCOPE: user_videos manage_pages publish_pages
 ---
 spring:
   profiles: cafe24local
+  jpa:
+      hibernate.ddl-auto: update
+      show-sql: false
+      database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
       url: jdbc:mysql://munsangdong.cafe24.com/munsangdong?useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf8
       username: munsangdong
