@@ -7,6 +7,10 @@ import com.fadong.bot.domain.Message;
 import com.fadong.bot.domain.MessageButton;
 import com.fadong.bot.domain.Photo;
 import com.google.common.collect.Lists;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 /**
  * Created by bungubbang on 06/06/2017.

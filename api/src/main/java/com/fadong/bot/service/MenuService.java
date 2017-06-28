@@ -14,8 +14,6 @@ import static com.fadong.bot.domain.BotMenu.*;
 @Service
 public class MenuService {
 
-
-
     public MessageResponse getMessage(MessageRequest request) {
         if(request.getType().equals("text")) {
             return getTextRequestMessage(request);
@@ -34,6 +32,8 @@ public class MenuService {
             return manageService.messageResponse(request);
         } else if(menu.contains(PLACE.getDescription())) {
             return placeService.messageResponse(request);
+        } else if(menu.contains(BUS.getDescription())) {
+            return busService.messageResponse(request);
         } else {
             return randomService.messageResponse(request);
         }
@@ -53,4 +53,7 @@ public class MenuService {
 
     @Autowired
     private ManageService manageService;
+
+    @Autowired
+    private BusService busService;
 }

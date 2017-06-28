@@ -3,6 +3,7 @@ package com.fadong.bot.service;
 import com.fadong.bot.controller.request.MessageRequest;
 import com.fadong.bot.domain.MessageButton;
 import com.fadong.bot.domain.Photo;
+import lombok.Setter;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +15,11 @@ import java.util.Calendar;
 @Service
 public class MartService extends MessageService {
 
+    @Setter
     private DateTime now;
 
     public MartService() {
         this.now = DateTime.now();
-    }
-
-    public MartService(DateTime now) {
-        this.now = now;
     }
 
     @Override
