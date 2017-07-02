@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 /**
  * Created by bungubbang on 07/06/2017.
@@ -19,11 +20,13 @@ public class MartService extends MessageService {
     private DateTime now;
 
     public MartService() {
-        this.now = DateTime.now();
     }
 
     @Override
     public String text(MessageRequest request) {
+        if(Objects.isNull(now)) {
+            now = DateTime.now();
+        }
         Integer day = now.dayOfMonth().get();
         DateTime firstRestDay = firstRestDay(now);
         DateTime secondRestDay = secondRestDay(now);
