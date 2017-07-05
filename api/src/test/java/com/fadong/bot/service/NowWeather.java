@@ -1,5 +1,6 @@
 package com.fadong.bot.service;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -13,6 +14,7 @@ import java.util.Map;
 /**
  * Created by bungubbang on 02/07/2017.
  */
+@Ignore
 public class NowWeather {
 
     @Test

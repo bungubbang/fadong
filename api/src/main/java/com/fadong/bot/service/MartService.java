@@ -16,17 +16,13 @@ import java.util.Objects;
 @Service
 public class MartService extends MessageService {
 
-    @Setter
-    private DateTime now;
 
     public MartService() {
     }
 
     @Override
     public String text(MessageRequest request) {
-        if(Objects.isNull(now)) {
-            now = DateTime.now();
-        }
+        DateTime now = DateTime.now();
         Integer day = now.dayOfMonth().get();
         DateTime firstRestDay = firstRestDay(now);
         DateTime secondRestDay = secondRestDay(now);

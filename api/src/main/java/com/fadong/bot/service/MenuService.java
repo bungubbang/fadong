@@ -3,10 +3,13 @@ package com.fadong.bot.service;
 import com.fadong.bot.controller.request.MessageRequest;
 import com.fadong.bot.controller.response.MessageResponse;
 import com.fadong.bot.domain.BotMenu;
+import com.fadong.controller.ApiController;
+import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.fadong.bot.domain.BotMenu.*;
+import static org.apache.commons.logging.LogFactory.getLog;
 
 /**
  * Created by bungubbang on 06/06/2017.
@@ -14,7 +17,11 @@ import static com.fadong.bot.domain.BotMenu.*;
 @Service
 public class MenuService {
 
+    private static final Log log = getLog(MenuService.class);
+
     public MessageResponse getMessage(MessageRequest request) {
+        log.info(request.toString());
+
         if(request.getType().equals("text")) {
             return getTextRequestMessage(request);
         } else {
