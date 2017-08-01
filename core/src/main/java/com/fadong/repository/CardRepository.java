@@ -21,5 +21,6 @@ public interface CardRepository extends JpaRepository<Card, String>,
     List<Card> findByStatus(STATUS status);
     List<Card> findByCreatedTimeLikeAndCategory(String createTime, String category);
     Page<Card> findByCreatedTimeLike(String createTime, Pageable pageable);
+    Card findOneByCategoryOrderByUpdatedTimeDesc(String category);
 
 }

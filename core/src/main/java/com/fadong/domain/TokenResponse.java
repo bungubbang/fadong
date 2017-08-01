@@ -10,4 +10,5 @@ public class TokenResponse {
     private String access_token;
     private String expires_in;
     private String machine_id;
+    private String id;
 }

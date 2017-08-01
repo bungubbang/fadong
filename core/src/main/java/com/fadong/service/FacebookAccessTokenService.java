@@ -78,6 +78,18 @@ public class FacebookAccessTokenService implements AccessTokenService {
         return generateToken(tokenParam);
     }
 
+    @Override
+    public String getPageAccessToken(String accessToken) {
+        StringBuilder tokenUrl = new StringBuilder();
+        tokenUrl.append("https://graph.facebook.com/ggoolzam");
+        tokenUrl.append("?fields=" + "access_token");
+        tokenUrl.append("&access_token=" + accessToken);
+
+        TokenResponse token = restTemplate.getForObject(tokenUrl.toString(), TokenResponse.class);
+
+        return token.getAccess_token();
+    }
+
 
     private AccessToken generateToken(TokenResponse tokenParam) {
 

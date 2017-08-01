@@ -63,6 +63,7 @@ project(':api') {
         compile('net.sourceforge.nekohtml:nekohtml:1.9.21')
 
         // test
+        testCompile("org.springframework.boot:spring-boot-starter-test")
         testCompile("junit:junit")
 
         providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")

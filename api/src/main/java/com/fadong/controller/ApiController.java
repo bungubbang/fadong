@@ -7,6 +7,7 @@ import com.fadong.repository.CardRepository;
 import com.fadong.domain.Card;
 import com.fadong.repository.PageRepository;
 import com.fadong.repository.PageTokenRepository;
+import com.fadong.service.AccessTokenService;
 import com.fadong.service.ApiService;
 import com.fadong.service.dto.CardSearch;
 import org.apache.commons.logging.Log;
@@ -43,6 +44,7 @@ public class ApiController {
     @Autowired private PageRepository pageRepository;
     @Autowired private ApiService apiService;
     @Autowired private PageTokenRepository pageTokenRepository;
+    @Autowired private AccessTokenService accessTokenService;
 
     @Autowired private RestTemplate restTemplate;
 
@@ -119,5 +121,14 @@ public class ApiController {
 
 
         return restTemplate.postForObject(postUrl, params, String.class);
+    }
+
+    @RequestMapping(value = "publish", method = RequestMethod.POST)
+    public void pagePublish(@RequestParam String message) {
+        String pageAccessToken = accessTokenService.getPageAccessToken(accessTokenService.getAccessToken());
+        log.info("[PAGE TOKEN] : " + pageAccessToken);
+        log.info("[Publish - START]");
+        apiService.publishPage(pageAccessToken, message);
+        log.info("[Publish - END]");
     }
 }

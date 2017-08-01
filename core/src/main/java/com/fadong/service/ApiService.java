@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface ApiService {
     Page<Card> getCard(CardSearch search, Pageable pageable);
+    void publishPage(String accessToken, String message);
 }

@@ -13,4 +13,5 @@ public interface AccessTokenService {
     String getAccessToken();
     AccessToken refreshAccessToken();
     AccessToken refreshAccessToken(AccessToken accessToken);
+    String getPageAccessToken(String accessToken);
 }
