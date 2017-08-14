@@ -7,10 +7,19 @@ package com.fadong.bot.service;
 import com.fadong.bot.controller.request.MessageRequest;
 import com.fadong.bot.domain.MessageButton;
 import com.fadong.bot.domain.Photo;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lombok.Setter;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,6 +36,13 @@ import java.io.StringReader;
 @Service
 public class WeatherService extends MessageService{
 
+    // 에뜰 위도
+    private String lat = "37.1891428";
+    // 에뜰 경도
+    private String lon = "127.0868397";
+
+    private String key = "ad74282e-6af1-394b-8d2f-89335dae58de";
+
     @Autowired @Setter
     private RestTemplate restTemplate;
 
@@ -42,7 +58,8 @@ public class WeatherService extends MessageService{
                 text = "내일 날씨를 알려드릴께요.\n";
                 text += getWeatherApi(new TomorrowFilter());
             } else {
-                text = "날씨예보를 알려드릴께요.\n";
+                text += "날씨예보를 알려드릴께요.\n";
+                text += getDustApi();
                 text += getWeatherApi(new CommonFilter());
             }
         } catch (Exception e) {
@@ -62,6 +79,33 @@ public class WeatherService extends MessageService{
         messageButton.setLabel("자세히보기");
         messageButton.setUrl("https://m.weather.naver.com/m/main.nhn?regionCode=02590588");
         return messageButton;
+    }
+
+    public String getDustApi() {
+        String url = "http://apis.skplanetx.com/weather/dust?version=1&lat=" + lat + "&lon=" + lon;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("appKey", key);
+
+        HttpEntity entity = new HttpEntity(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+        if(response.getStatusCode().is2xxSuccessful()) {
+            JsonParser parser = new JsonParser();
+            JsonObject root = parser.parse(response.getBody()).getAsJsonObject();
+            JsonObject weather = root.getAsJsonObject("weather");
+            JsonArray dust = weather.getAsJsonArray("dust");
+            if(dust.size() > 0) {
+                JsonObject object = dust.get(0).getAsJsonObject();
+                JsonObject pm10 = object.getAsJsonObject("pm10");
+                String grade = pm10.getAsJsonPrimitive("grade").getAsString();
+                String value = pm10.getAsJsonPrimitive("value").getAsString();
+
+
+                return "\n지금 미세먼지는\n" + grade+ " (pm10 : " + value + ") 이예요!\n\n";
+            }
+        }
+        return "";
     }
 
     private String getWeatherApi(Filter filter) throws ParserConfigurationException, IOException, SAXException {

@@ -4,6 +4,10 @@ import com.fadong.bot.controller.request.MessageRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 /**
  * Created by bungubbang on 04/06/2017.
@@ -41,6 +45,12 @@ public class WeatherServiceTest {
         messageRequest.setContent("날씨 좀 알려줘 어때?");
         String text = weatherService.text(messageRequest);
         System.out.println("text = " + text);
+    }
+
+    @Test
+    public void dustTest() throws IOException, SAXException, ParserConfigurationException {
+        String dustApi = weatherService.getDustApi();
+        System.out.println("dustApi = " + dustApi);
     }
 
 }
