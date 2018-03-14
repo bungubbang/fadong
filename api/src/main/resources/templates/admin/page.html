@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <h1>Add Page</h1>
+                <form id="add-page-form">
+                    <div class="form-group">
+                        <label for="category-input">Category</label>
+                        <select class="form-control" id="category-input" name="category">
+                            <option>TREND</option>
+                            <option>SPORTS</option>
+                            <option>MUSIC</option>
+                            <option>PET</option>
+                            <option>GAME</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="page-id-input">Page Id</label>
+                        <input type="text" class="form-control" id="page-id-input" name="id" />
+                    </div>
+                    <button type="submit" class="btn btn-default">Add</button>
+                </form>
+            </div>
+            <div class="row">
+                <h1>Pages<button type="text" class="btn btn-default btn-page-refresh">Refresh</button></h1>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>category</th>
+                            <th>name</th>
+                            <th>profile_image</th>
+                            <th>update_date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="page-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+    <script >
+        $( document ).ready(function() {
+            $('#add-page-form').submit(function(e) {
+                e.preventDefault();
+                $.post('/api/page/update', $('#add-page-form').serialize())
+                        .done(function() {
+                            console.log("add : " + $('#add-page-form').serialize());
+                            refreshTable();
+                        });
+            });
+
+            $('#btn-page-refresh').click(function() {
+                $.get('/batch/page', function() {
+                    refreshTable();
+                })
+            });
+
+            refreshTable();
+        });
+
+        var getPage = function(callback) {
+            $.get('/api/page', function(data) {
+                if(callback != null && typeof callback === "function") {
+                    callback(data);
+                }
+            });
+        };
+
+        var refreshTable = function() {
+            var $pagesDiv = $('#page-table-body');
+            $pagesDiv.empty();
+            getPage(function(data) {
+                for(var i=0; i<data.length; i++ ) {
+                    var page = data[i];
+                    $pagesDiv.append("<tr>" +
+                            "<td>" + page.id + "</td>" +
+                            "<td>" + page.category + "</td>" +
+                            "<td>" + page.name + "</td>" +
+                            "<td><img src='" + page.profile_image + "' style='width: 50px; height: 50px;'/></td>" +
+                            "<td>" + page.update_date + "</td>" +
+                            "</tr>");
+                }
+            });
+        }
+    </script>
+    </body>
+</html>

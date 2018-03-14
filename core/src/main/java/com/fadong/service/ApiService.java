@@ -3,6 +3,7 @@ package com.fadong.service;
 import com.fadong.domain.Card;
 import com.fadong.service.dto.CardSearch;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -12,5 +13,6 @@ import java.util.List;
  * Date: 15. 6. 23.
  */
 public interface ApiService {
-    Page<Card> getCard(CardSearch search);
+    Page<Card> getCard(CardSearch search, Pageable pageable);
+    void publishPage(String accessToken, String message);
 }

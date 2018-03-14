@@ -1,6 +1,8 @@
 package com.fadong.repository;
 
 import com.fadong.domain.Card;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -18,6 +20,7 @@ public interface CardRepository extends JpaRepository<Card, String>,
 
     List<Card> findByStatus(STATUS status);
     List<Card> findByCreatedTimeLikeAndCategory(String createTime, String category);
-    List<Card> findByCreatedTimeLike(String createTime);
+    Page<Card> findByCreatedTimeLike(String createTime, Pageable pageable);
+    Card findOneByCategoryOrderByUpdatedTimeDesc(String category);
 
 }

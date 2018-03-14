@@ -5,7 +5,9 @@ import com.fadong.domain.Page;
 import com.fadong.repository.CardRepository;
 import com.fadong.repository.PageRepository;
 import com.fadong.service.dto.CardDto;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by bungubbang
@@ -22,7 +25,7 @@ import java.util.Date;
 @Service
 public class FeviBatchService implements BatchService {
 
-    Log log = LogFactory.getLog(FeviBatchService.class);
+    private Log log = LogFactory.getLog(FeviBatchService.class);
 
     @Autowired
     private CardRepository cardRepository;
@@ -35,43 +38,52 @@ public class FeviBatchService implements BatchService {
 
     @Override
     public Page updatePage(Page page) {
+        try {
+            String profile = "https://graph.facebook.com/" + page.getId() +
+                                "?fields=picture.height(200).type(normal).width(200),id,name" +
+                                "&access_token=" + accessTokenService.getAccessToken();
 
-        StringBuilder profile = new StringBuilder();
-        profile.append("https://graph.facebook.com");
-        profile.append("/" + page.getId());
-        profile.append("?fields=picture.height(200).type(normal).width(200),id,name");
-        profile.append("&access_token=" + accessTokenService.getAccessToken());
+            String result = restTemplate.getForObject(profile, String.class);
+            JsonElement gson = new JsonParser().parse(result);
+            JsonElement name = gson.getAsJsonObject().get("name");
+            JsonElement url = gson.getAsJsonObject().get("picture").getAsJsonObject().get("data").getAsJsonObject().get("url");
 
-        JsonElement gson = restTemplate.getForObject(profile.toString(), JsonElement.class);
+            page.setName(name.getAsString());
+            page.setProfile_image(url.getAsString());
+            page.setUpdateDate(new Date().toString());
+            pageRepository.save(page);
+        } catch (Exception e) {
+            log.error("[Page Update ERROR] : " + page);
+//            pageRepository.delete(page);
+        }
 
-        JsonElement name = gson.getAsJsonObject().get("name");
-        JsonElement url = gson.getAsJsonObject().get("picture").getAsJsonObject().get("data").getAsJsonObject().get("url");
-
-        page.setName(name.getAsString());
-        page.setProfile_image(url.getAsString());
-        page.setUpdateDate(new Date().toString());
 
         return page;
     }
 
     @Override
     public Page updateCardRecently(Page page) {
-        StringBuilder profile = new StringBuilder();
-        profile.append("https://graph.facebook.com");
-        profile.append("/" + page.getId());
-        profile.append("/videos?fields=id,created_time,updated_time,description,source,format&limit=10");
-        profile.append("&access_token=" + accessTokenService.getAccessToken());
+        String profile = "https://graph.facebook.com/" + page.getId() +
+                            "/videos?fields=id,created_time,updated_time,description,source,format&limit=10" +
+                            "&access_token=" + accessTokenService.getAccessToken();
 
-        CardDto updateCard = restTemplate.getForObject(profile.toString(), CardDto.class);
+        CardDto updateCard = restTemplate.getForObject(profile, CardDto.class);
 
         for (CardDto.CardDataDto cardDataDto : updateCard.getData()) {
-            Card card = cardRepository.findOne(cardDataDto.getId());
-            if (card == null) {
-                card = new Card();
+            try{
+                Card card = cardRepository.findOne(cardDataDto.getId());
+                if (card == null) {
+                    card = new Card();
+                }
+                card.updateByDto(cardDataDto, page);
+                cardRepository.save(card);
+                log.info("update card : " + card.getId());
+            } catch (Exception e) {
+                if(!Objects.isNull(cardDataDto)) {
+                    log.info("ERROR card : " + cardDataDto.getId());
+                }
             }
-            card.updateByDto(cardDataDto, page);
-            cardRepository.save(card);
-            log.info("update card : " + card.getId());
+
 
         }
         return page;
@@ -79,15 +91,23 @@ public class FeviBatchService implements BatchService {
 
     @Override
     public Card updateCardAll(Card card) {
+        CardDto.CardDataDto updateCard = null;
+        try {
+            String builder = "https://graph.facebook.com/" + card.getId() + "?access_token=" + accessTokenService.getAccessToken();
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("https://graph.facebook.com");
-        builder.append("/" + card.getId());
-        builder.append("?access_token=" + accessTokenService.getAccessToken());
+            updateCard = restTemplate.getForObject(builder, CardDto.CardDataDto.class);
+            Card saveCard = card.updateByDto(updateCard);
+            cardRepository.save(saveCard);
+            return saveCard;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if(!Objects.isNull(updateCard)) {
+                log.info("ERROR card : " + updateCard.getId());
+//            cardRepository.delete(card);
+            }
+        }
 
-        CardDto.CardDataDto updateCard = restTemplate.getForObject(builder.toString(), CardDto.CardDataDto.class);
-
-        return card.updateByDto(updateCard);
+        return card;
     }
 
     @Override
